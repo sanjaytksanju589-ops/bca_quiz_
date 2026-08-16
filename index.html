@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BCA Three-Level Quiz Hackathon Platform">
+  <title>BCA Quiz Arena</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <div id="cinematic-bg" aria-hidden="true">
+    <div class="grid"></div>
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div id="particles"></div>
+  </div>
+
+  <main id="app">
+    <section id="authView" class="view active">
+      <div class="auth-shell">
+        <div class="brand-block">
+          <div class="brand-mark">⌬</div>
+          <p class="eyebrow">BCA HACKATHON 2026</p>
+          <h1>QUIZ <span>ARENA</span></h1>
+          <p class="muted">Three levels. 90 questions. One challenge.</p>
+        </div>
+
+        <div class="auth-card glass">
+          <div class="tabs">
+            <button class="tab active" data-auth="student">Student Login</button>
+            <button class="tab" data-auth="admin">Admin Login</button>
+          </div>
+
+          <form id="loginForm" class="form">
+            <label>Email / Username<input id="loginId" required autocomplete="username"
+                placeholder="student@example.com"></label>
+            <label>Password>
+              <div class="password-wrap">
+                <input id="loginPassword" type="password" required autocomplete="current-password"
+                  placeholder="Enter password">
+                <button type="button" class="eye" data-target="loginPassword" aria-label="Show password">◉</button>
+              </div>
+            </label>
+            <button class="primary-btn" type="submit">ENTER ARENA <span>→</span></button>
+            <p id="loginError" class="error"></p>
+          </form>
+
+          <div id="registerPanel">
+            <div class="divider"><span>NEW STUDENT?</span></div>
+            <button id="showRegister" class="ghost-btn">Create Student Account</button>
+          </div>
+
+          <form id="registerForm" class="form hidden">
+            <h3>Create account</h3>
+            <label>Full name<input id="regName" required placeholder="Your name"></label>
+            <label>Email<input id="regEmail" type="email" required placeholder="you@example.com"></label>
+            <label>Password>
+              <div class="password-wrap">
+                <input id="regPassword" type="password" minlength="6" required placeholder="Minimum 6 characters">
+                <button type="button" class="eye" data-target="regPassword" aria-label="Show password">◉</button>
+              </div>
+            </label>
+            <button class="primary-btn" type="submit">REGISTER</button>
+            <button id="cancelRegister" class="ghost-btn" type="button">Back to login</button>
+            <p id="registerError" class="error"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="studentView" class="view">
+      <nav class="topbar">
+        <div class="brand-mini"><span>⌬</span> QUIZ ARENA</div>
+        <div class="top-actions"><span id="navUser"></span><button id="studentLogout"
+            class="ghost-btn small">Logout</button></div>
+      </nav>
+      <div class="container">
+        <div class="hero-row">
+          <div>
+            <p class="eyebrow">STUDENT CONSOLE</p>
+            <h2>Welcome, <span id="studentName"></span></h2>
+            <p class="muted">Pass each stage with 75% or higher to unlock the next challenge.</p>
+          </div>
+          <div class="score-card glass"><small>OVERALL SCORE</small><strong id="overallScore">0%</strong></div>
+        </div>
+        <div class="stats-grid">
+          <div class="glass stat"><span>Current Level</span><strong id="currentLevel">1</strong></div>
+          <div class="glass stat"><span>Attempts</span><strong id="attemptCount">0</strong></div>
+          <div class="glass stat"><span>Unlocked</span><strong id="unlockedCount">1 / 3</strong></div>
+        </div>
+        <div class="section-title">
+          <h3>Choose your level</h3><span>23 / 30 required to pass</span>
+        </div>
+        <div id="levelGrid" class="level-grid"></div>
+        <div class="section-title">
+          <h3>Recent attempts</h3>
+        </div>
+        <div id="studentAttempts" class="attempt-list"></div>
+      </div>
+    </section>
+
+    <section id="quizView" class="view">
+      <nav class="topbar">
+        <div class="brand-mini"><span>⌬</span> QUIZ ARENA</div>
+        <button id="exitQuiz" class="ghost-btn small">Exit Quiz</button>
+      </nav>
+      <div class="quiz-container">
+        <div class="quiz-head">
+          <div>
+            <p class="eyebrow" id="quizLevelLabel"></p>
+            <h2 id="quizLevelTitle"></h2>
+          </div>
+          <div class="timer" id="timer">20</div>
+        </div>
+        <div class="progress-track">
+          <div id="quizProgress" class="progress-fill"></div>
+        </div>
+        <div class="question-meta"><span id="questionNumber"></span><span id="questionTopic"></span></div>
+        <article class="question-card glass">
+          <h2 id="questionText"></h2>
+          <div id="answers" class="answers"></div>
+          <div class="quiz-footer">
+            <span id="answerState" class="muted">Select one answer</span>
+            <button id="nextQuestion" class="primary-btn" disabled>Next Question →</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="resultView" class="view">
+      <div class="result-container glass">
+        <div id="resultIcon" class="result-icon">✓</div>
+        <p class="eyebrow">LEVEL COMPLETE</p>
+        <h1 id="resultTitle"></h1>
+        <div class="result-score"><strong id="resultPercentage"></strong><span id="resultStatus"></span></div>
+        <div class="result-grid">
+          <div><span>Correct</span><strong id="resultCorrect"></strong></div>
+          <div><span>Wrong</span><strong id="resultWrong"></strong></div>
+          <div><span>Unanswered</span><strong id="resultUnanswered"></strong></div>
+          <div><span>Time Used</span><strong id="resultTime"></strong></div>
+        </div>
+        <div class="result-actions">
+          <button id="resultPrimary" class="primary-btn"></button>
+          <button id="resultHome" class="ghost-btn">Back to Dashboard</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="adminView" class="view">
+      <nav class="topbar">
+        <div class="brand-mini"><span>⌬</span> ADMIN COMMAND</div>
+        <button id="adminLogout" class="ghost-btn small">Logout</button>
+      </nav>
+      <div class="container">
+        <div class="hero-row">
+          <div>
+            <p class="eyebrow">ADMIN DASHBOARD</p>
+            <h2>Competition Control</h2>
+            <p class="muted">Monitor registrations, attempts and level performance.</p>
+          </div>
+        </div>
+        <div id="adminStats" class="stats-grid"></div>
+        <div class="toolbar glass">
+          <input id="searchResults" placeholder="Search student or email...">
+          <select id="levelFilter">
+            <option value="all">All levels</option>
+            <option value="1">Level 1</option>
+            <option value="2">Level 2</option>
+            <option value="3">Level 3</option>
+          </select>
+          <select id="statusFilter">
+            <option value="all">All status</option>
+            <option value="PASS">Passed</option>
+            <option value="FAIL">Failed</option>
+          </select>
+        </div>
+        <div class="table-wrap glass">
+          <table>
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Level</th>
+                <th>Score</th>
+                <th>Percentage</th>
+                <th>Status</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="resultsBody"></tbody>
+          </table>
+        </div>
+        <p class="security-note">Demo note: this frontend uses localStorage. Production authentication must use a secure
+          backend, hashed passwords and server-side authorization.</p>
+      </div>
+    </section>
+  </main>
+  <script src="js/questions.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
